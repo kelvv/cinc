@@ -47,7 +47,7 @@ AV.Cloud.define('getPostRead', function (req, res) {
   console.log('getPostRead call')
   co(function* () {
     var query = new AV.Query('posts')
-    query.equalTo('postId', URLDecoder.decode(req.params.postId, 'utf-8'))
+    query.equalTo('postId', req.params.postId)
     let posts = yield query.find()
     if (posts.length > 0) {
       res.success(posts[0].get('readCount'))
