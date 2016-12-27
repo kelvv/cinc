@@ -3,6 +3,8 @@ var express = require('express')
 var AV = require('leanengine')
 
 var app = express()
+app.use(express.static('public'))
+
 app.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With')
