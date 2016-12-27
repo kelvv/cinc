@@ -50,6 +50,8 @@ AV.Cloud.define('getPostRead', function (req, res) {
     let posts = yield query.find()
     if (posts.length > 0) {
       res.success(posts[0].get('readCount'))
+    } else {
+      res.success(0)
     }
   })
 })

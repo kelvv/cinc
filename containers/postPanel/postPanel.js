@@ -1,22 +1,32 @@
-var div = document.getElementsByClassName('cinc-postPanel')[0]
-var a = document.createElement('a')
-a.style = 'color: #555; text-decoration: none; outline: none; font-size: 14'
-a.textContent = '阅读 12'
-div.appendChild(a)
-window.fetch('http://www.example.org/submit.php', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  },
-  body: 'firstName=Nikhil&favColor=blue&password=easytoguess'
-}).then(function (res) {
-  if (res.ok) {
-    alert('Perfect! Your settings are saved.')
-  } else if (res.status == 401) {
-    alert('Oops! You are not authorized.')
+'use strict'
+var panels = document.getElementsByClassName('cinc-postPanel')
+for (let panel of panels) {
+  var body = `userId=${panel.attributes['user-id'].nodeValue}&&postId=${panel.attributes['data-key'].nodeValue}&&postTitle=${panel.attributes['data-title'].nodeValue}`
+
+  var url = 'http://cinc.leanapp.cn/1.1/functions/'
+  if (panel.attributes['isReadOnly'].nodeValue === 'true') {
+    url += 'getPostRead'
+  } else {
+    url += 'incPostRead'
   }
-}, function (e) {
-  alert('Error submitting form!')
-})
-window.fetch('http://blog.parryqiu.com').then(function (response) { console.log(response) })
-console.log(div.attributes['user-id'].nodeValue)
+  window.fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-AVOSCloud-Application-Id': 'GfIwMv2BxjSrE7IWjUDDjuLY-gzGzoHsz',
+      'X-AVOSCloud-Application-Key': '2Yxh385fxLsI1LqyxwFnJjWa'
+    },
+    body
+  }).then(function (res) {
+    res.json().then((obj) => {
+      var a = document.createElement('a')
+      a.style = 'color: #555; text-decoration: none; outline: none; font-size: 12px'
+      a.textContent = `阅读 ${obj.result || 0}`
+      panel.appendChild(a)
+    })
+  }, function (e) {
+
+  })
+  console.log(panel.attributes['user-id'].nodeValue)
+}
+
