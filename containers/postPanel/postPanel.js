@@ -33,9 +33,11 @@ function fetch (url, option) {
 var panels = document.getElementsByClassName('cinc-postPanel')
 for (let i = 0; i < panels.length; i++) {
   let panel = panels[i]
-  var body = `userId=${panel.attributes['user-id'].nodeValue}&&postId=${panel.attributes['data-key'].nodeValue}&&postTitle=${panel.attributes['data-title'].nodeValue}`
+  let userId = panel.attributes['user-id'].nodeValue
+  let body = `userId=${userId}&&postId=${panel.attributes['data-key'].nodeValue}&&postTitle=${panel.attributes['data-title'].nodeValue}&&domain=${document.domain}`
 
-  var url = 'http://cinc.leanapp.cn/1.1/functions/'
+  let url = 'http://cinc.leanapp.cn/1.1/functions/'
+  url = 'http://localhost:3000/1.1/functions/'
   if (panel.attributes['isReadOnly'].nodeValue === 'true') {
     url += 'getPostRead'
   } else {

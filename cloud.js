@@ -1,21 +1,49 @@
 const AV = require('leanengine')
 const co = require('co')
 
-AV.Cloud.define('signUp', function (req, res) {
-  let user = new AV.User()
-  user.setUsername(req.params.username)
-  user.setPassword(req.params.password)
-  user.signUp().then(function (loginedUser) {
-    res.success(`signin success! Id:${loginedUser.id}`)
-  }, function (error) {
-    res.error(JSON.stringify(error))
-    console.log(JSON.stringify(error))
+function preprocess (req) {
+  return new Promise((resolve, reject) => {
+    co(function* () {
+      let domain = req.params.domain
+      var query = new AV.Query('_User')
+      query.equalTo('objectId', req.params.userId)
+      query.equalTo('domain', domain)
+      let user = yield query.find()
+      if (user.length > 0) {
+        resolve({
+          result: true
+        })
+      } else {
+        resolve({
+          result: false,
+          error: '用户不存在者域名错误'
+        })
+      }
+    })
   })
-  console.log(req)
+}
+
+AV.Cloud.define('signUp', function (req, res) {
+  co(function* () {
+    let user = new AV.User()
+    user.setUsername(req.params.username)
+    user.setPassword(req.params.password)
+    user.set('domain', req.params.domain)
+    user.signUp().then(function (loginedUser) {
+      res.success(`signin success! Id:${loginedUser.id}`)
+    }, function (error) {
+      res.error(JSON.stringify(error))
+    })
+  })
 })
 
 AV.Cloud.define('incPostRead', function (req, res) {
   co(function* () {
+    let preResult = yield preprocess(req)
+    if (!preResult.result) {
+      res.error(preResult.error)
+      return
+    }
     let user = AV.Object.createWithoutData('_User', req.params.userId)
     var query = new AV.Query('posts')
     query.equalTo('postId', req.params.postId)
@@ -44,8 +72,12 @@ AV.Cloud.define('incPostRead', function (req, res) {
 })
 
 AV.Cloud.define('getPostRead', function (req, res) {
-  console.log('getPostRead call')
   co(function* () {
+    let preResult = yield preprocess(req)
+    if (!preResult.result) {
+      res.error(preResult.error)
+      return
+    }
     var query = new AV.Query('posts')
     query.equalTo('postId', req.params.postId)
     let posts = yield query.find()
@@ -58,6 +90,9 @@ AV.Cloud.define('getPostRead', function (req, res) {
 })
 
 AV.Cloud.define('totalCount', function (req, res) {
+  if (!preprocess(req)) {
+    return
+  }
   co(function* () {
     let user = AV.Object.createWithoutData('_User', req.params.userId)
     var query = new AV.Query('posts')
