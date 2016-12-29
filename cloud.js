@@ -57,6 +57,7 @@ AV.Cloud.define('incPostRead', function (req, res) {
       post.set('postId', req.params.postId)
       post.set('author', user)
       post.set('postTitle', req.params.postTitle)
+      post.set('postUrl', req.params.postUrl)
       post = yield post.save()
     }
     post.increment('readCount', 1)
