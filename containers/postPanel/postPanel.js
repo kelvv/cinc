@@ -43,7 +43,7 @@ for (let i = 0; i < panels.length; i++) {
   let body = `userId=${userId}&&postId=${panel.attributes['data-key'].nodeValue}&&postTitle=${panel.attributes['data-title'].nodeValue}&&postUrl=${panel.attributes['data-url'].nodeValue}&&domain=${document.domain}`
   let isRead = Boolean(panel.attributes['isReadOnly'].nodeValue)
   let url = 'http://cinc.leanapp.cn/1.1/functions/'
-  if (isRead) {
+  if (isRead.equals('true')) {
     url += 'getPostRead'
   } else {
     url += 'incPostRead'
