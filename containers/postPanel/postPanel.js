@@ -1,6 +1,6 @@
 'use strict'
 function fetch (url, option) {
-  return new Promise((resolve, reject) => {
+  return new Promise(function (resolve, reject) {
     let xmlhttp = {}
     if (window.XMLHttpRequest) {
       xmlhttp = new window.XMLHttpRequest()
@@ -30,15 +30,20 @@ function fetch (url, option) {
   })
 }
 
-var panels = document.getElementsByClassName('cinc-postPanel')
+let panels = document.getElementsByClassName('cinc-postPanel')
+let url = 'http://cinc.leanapp.cn/1.1/functions/'
 for (let i = 0; i < panels.length; i++) {
   let panel = panels[i]
+  let atts = ['user-id', 'data-key', 'data-title', 'data-url', 'isReadOnly']
+  atts.forEach(att => {
+    if (!Object.prototype.hasOwnProperty.call(panel.attributes, att)) {
+      throw Error(`缺少 ${att} 属性`)
+    }
+  })
   let userId = panel.attributes['user-id'].nodeValue
   let body = `userId=${userId}&&postId=${panel.attributes['data-key'].nodeValue}&&postTitle=${panel.attributes['data-title'].nodeValue}&&postUrl=${panel.attributes['data-url'].nodeValue}&&domain=${document.domain}`
-
-  let url = 'http://cinc.leanapp.cn/1.1/functions/'
-  // url = 'http://localhost:3000/1.1/functions/'
-  if (panel.attributes['isReadOnly'].nodeValue === 'true') {
+  let isRead = Boolean(panel.attributes['isReadOnly'].nodeValue)
+  if (isRead) {
     url += 'getPostRead'
   } else {
     url += 'incPostRead'
@@ -56,7 +61,7 @@ for (let i = 0; i < panels.length; i++) {
     a.textContent = `阅读 ${res.result || 0}`
     panel.appendChild(a)
   }, function (e) {
-
+    throw Error(e)
   })
 }
 
