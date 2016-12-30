@@ -4,7 +4,7 @@ const co = require('co')
 function preprocess (req) {
   return new Promise((resolve, reject) => {
     co(function* () {
-      let domain = req.params.domain
+      let domain = req.params.domain || ''
       var query = new AV.Query('_User')
       query.equalTo('objectId', req.params.userId)
       query.equalTo('domain', domain)
@@ -91,10 +91,12 @@ AV.Cloud.define('getPostRead', function (req, res) {
 })
 
 AV.Cloud.define('totalCount', function (req, res) {
-  if (!preprocess(req)) {
-    return
-  }
   co(function* () {
+    let preResult = yield preprocess(req)
+    if (!preResult.result) {
+      res.error(preResult.error)
+      return
+    }
     let user = AV.Object.createWithoutData('_User', req.params.userId)
     var query = new AV.Query('posts')
     query.equalTo('author', user)

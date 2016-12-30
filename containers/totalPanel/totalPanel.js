@@ -1,7 +1,48 @@
-(function () {
-  var div = document.getElementsByClassName('cinc-totalPanel')[0]
-  var body = `userId=${div.attributes['user-id'].nodeValue}`
-  window.fetch('http://cinc.leanapp.cn/1.1/functions/totalCount', {
+'use strict'
+function fetch (url, option) {
+  return new Promise(function (resolve, reject) {
+    let xmlhttp = {}
+    if (window.XMLHttpRequest) {
+      xmlhttp = new window.XMLHttpRequest()
+    } else if (window.ActiveXObject) {
+      xmlhttp = new window.ActiveXObject('Microsoft.XMLHTTP')
+    }
+    if (xmlhttp != null) {
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4) {
+          if (xmlhttp.status === 200) {
+            resolve(JSON.parse(xmlhttp.response))
+          } else {
+            reject('Problem retrieving XML data')
+          }
+        }
+      }
+      xmlhttp.open(option.method, url, true)
+      if (option.headers !== undefined) {
+        for (let key in option.headers) {
+          xmlhttp.setRequestHeader(key, option.headers[key])
+        }
+      }
+      xmlhttp.send(option.body)
+    } else {
+      reject('Your browser does not support XMLHTTP.')
+    }
+  })
+}
+
+let panels = document.getElementsByClassName('cinc-totalPanel')
+let url = 'http://cinc.leanapp.cn/1.1/functions/totalCount'
+url = 'http://localhost:3000/1.1/functions/totalCount'
+for (let i = 0; i < panels.length; i++) {
+  let panel = panels[i]
+  let atts = ['user-id']
+  atts.forEach(att => {
+    if (!Object.prototype.hasOwnProperty.call(panel.attributes, att)) {
+      throw Error(`缺少 ${att} 属性`)
+    }
+  })
+  let body = `userId=${panel.attributes['user-id'].nodeValue}`
+  fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -10,14 +51,14 @@
     },
     body
   }).then(function (res) {
-    res.json().then((obj) => {
-      var a = document.createElement('a')
-      a.style = 'color: #555; text-decoration: none; outline: none; font-size: 12px'
-      a.textContent = `文章数量 ${obj.result.postCount} * 总阅读量 ${obj.result.readCount}`
-      div.appendChild(a)
-    })
+    let postCount = document.createElement('p')
+    postCount.textContent = `博文: ${res.result.postCount}篇`
+    panel.appendChild(postCount)
+    let readCount = document.createElement('p')
+    readCount.textContent = `阅读: ${res.result.readCount}次`
+    panel.appendChild(readCount)
   }, function (e) {
 
   })
-  console.log(div.attributes['user-id'].nodeValue)
-})()
+}
+
