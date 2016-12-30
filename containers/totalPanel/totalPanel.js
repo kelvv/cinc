@@ -32,7 +32,6 @@ function fetch (url, option) {
 
 let panels = document.getElementsByClassName('cinc-totalPanel')
 let url = 'http://cinc.leanapp.cn/1.1/functions/totalCount'
-url = 'http://localhost:3000/1.1/functions/totalCount'
 for (let i = 0; i < panels.length; i++) {
   let panel = panels[i]
   let atts = ['user-id']
