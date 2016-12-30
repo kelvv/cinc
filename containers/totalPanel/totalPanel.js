@@ -40,7 +40,7 @@ for (let i = 0; i < panels.length; i++) {
       throw Error(`缺少 ${att} 属性`)
     }
   })
-  let body = `userId=${panel.attributes['user-id'].nodeValue}`
+  let body = `userId=${panel.attributes['user-id'].nodeValue}&&domain=${document.domain}`
   fetch(url, {
     method: 'POST',
     headers: {

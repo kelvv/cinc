@@ -31,7 +31,6 @@ function fetch (url, option) {
 }
 
 let panels = document.getElementsByClassName('cinc-postPanel')
-let url = 'http://cinc.leanapp.cn/1.1/functions/'
 for (let i = 0; i < panels.length; i++) {
   let panel = panels[i]
   let atts = ['user-id', 'data-key', 'data-title', 'data-url', 'isReadOnly']
@@ -43,6 +42,7 @@ for (let i = 0; i < panels.length; i++) {
   let userId = panel.attributes['user-id'].nodeValue
   let body = `userId=${userId}&&postId=${panel.attributes['data-key'].nodeValue}&&postTitle=${panel.attributes['data-title'].nodeValue}&&postUrl=${panel.attributes['data-url'].nodeValue}&&domain=${document.domain}`
   let isRead = Boolean(panel.attributes['isReadOnly'].nodeValue)
+  let url = 'http://cinc.leanapp.cn/1.1/functions/'
   if (isRead) {
     url += 'getPostRead'
   } else {
