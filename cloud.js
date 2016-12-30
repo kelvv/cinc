@@ -85,6 +85,14 @@ AV.Cloud.define('getPostRead', function (req, res) {
     if (posts.length > 0) {
       res.success(posts[0].get('readCount'))
     } else {
+      let user = AV.Object.createWithoutData('_User', req.params.userId)
+      let Post = AV.Object.extend('posts')
+      let post = new Post()
+      post.set('postId', req.params.postId)
+      post.set('author', user)
+      post.set('postTitle', req.params.postTitle)
+      post.set('postUrl', req.params.postUrl)
+      yield post.save()
       res.success(0)
     }
   })
