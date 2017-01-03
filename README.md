@@ -1,7 +1,5 @@
 # cinc（读数） 
 
-demo: ![](http://kelresource.oss-cn-shenzhen.aliyuncs.com/WechatIMG39.jpeg)
-
 Supported browsers：
 * IE 11
 * Edge  14⬆️
@@ -46,3 +44,5 @@ There are two panels you can use
   ```
   It will show the amount of reading all articles in your blog
   You can use this panel inside the home page
+  
+  demo: ![](http://kelresource.oss-cn-shenzhen.aliyuncs.com/WechatIMG39.jpeg)
