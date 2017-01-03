@@ -1,5 +1,7 @@
 # cinc（读数） 
 
+demo: ![](http://kelresource.oss-cn-shenzhen.aliyuncs.com/WechatIMG39.jpeg)
+
 Supported browsers：
 * IE 11
 * Edge  14⬆️
