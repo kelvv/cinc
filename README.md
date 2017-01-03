@@ -45,4 +45,4 @@ There are two panels you can use
   It will show the amount of reading all articles in your blog
   You can use this panel inside the home page
   
-  demo: ![](http://kelresource.oss-cn-shenzhen.aliyuncs.com/WechatIMG39.jpeg)
+  demo: ![](https://github.com/kelvv/cinc/blob/master/screenshot/demo.gif)
