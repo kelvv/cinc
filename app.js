@@ -1,8 +1,8 @@
 'use strict'
-var express = require('express')
-var AV = require('leanengine')
+const express = require('express')
+const AV = require('leanengine')
 
-var app = express()
+let app = express()
 app.use(express.static('public'))
 
 app.all('*', (req, res, next) => {
