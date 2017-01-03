@@ -25,10 +25,10 @@ There are two panels you can use
      data-title="input post title" 
      data-url="input post url"
      isReadOnly=true>
-    </div>
-    <script type="text/javascript" async="" 
-    src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/postPanel.min.js" 
-    charset="UTF-8"></script>
+  </div>
+  <script type="text/javascript" async="" 
+  src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/postPanel.min.js" 
+  charset="UTF-8"></script>
   ```
   It will show the amount of reading the article
   You can use this panel inside the post list page or post detail page 
@@ -37,10 +37,10 @@ There are two panels you can use
   ```
   <div class="cinc-totalPanel" 
      user-id="input user id" >
-    </div>
-    <script type="text/javascript" async="" 
-    src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/totalPanel.min.js" 
-    charset="UTF-8"></script>
+  </div>
+  <script type="text/javascript" async="" 
+  src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/totalPanel.min.js" 
+  charset="UTF-8"></script>
   ```
   It will show the amount of reading all articles in your blog
   You can use this panel inside the home page
